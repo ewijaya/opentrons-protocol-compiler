@@ -1,4 +1,4 @@
-# PipetteC — a compiler for liquid-handling protocols
+# PipetteC: a compiler for liquid-handling protocols
 
 > Write a one-page experiment spec (or drop in a real Echo picklist). Get a **validated,
 > tip-optimized Opentrons OT-2 protocol** that passes the official simulator in CI.
@@ -10,10 +10,10 @@
 ![license](https://img.shields.io/badge/license-MIT-lightgrey)
 [![live report](https://img.shields.io/badge/report-pipettec.pages.dev-00a9f4)](https://pipettec.pages.dev)
 
-**👉 New here? Read the plain-language report at [pipettec.pages.dev](https://pipettec.pages.dev)** —
-it explains the problem, the tool, and how to judge the results with no prior knowledge assumed.
+**👉 New here? Read the plain-language report at [pipettec.pages.dev](https://pipettec.pages.dev).**
+It explains the problem, the tool, and how to judge the results with no prior knowledge assumed.
 
-PipetteC compiles a high-level YAML experiment spec — or a real Echo picklist CSV — into a
+PipetteC compiles a high-level YAML experiment spec (or a real Echo picklist CSV) into a
 runnable Opentrons OT-2 Python protocol. It is built like a real compiler:
 
 ```
@@ -24,9 +24,9 @@ The optimizer **applies the published tip-saving formulation** (liquid handling 
 vehicle-routing / linear-programming problem) to cut disposable pipette tips dramatically, with a
 machine-checked guarantee that the optimized protocol delivers *exactly the same liquid* as the
 naive one. Every protocol it emits is validated by Opentrons' own `opentrons_simulate` on every
-commit — so correctness isn't a claim, it's a green check. **No robot required.**
+commit, so correctness is a green check rather than a claim. **No robot required.**
 
-## Metrics — naive vs optimized (auto-generated)
+## Metrics: naive vs optimized (auto-generated)
 
 Both columns are computed from the **same IR** (optimizer off vs on), so the comparison is
 apples-to-apples and cannot be cherry-picked. Regenerate with `python benchmarks/bench.py --readme`.
@@ -77,7 +77,7 @@ transfer_volume_ul: 50
 
 | Skill | Where it shows up |
 | --- | --- |
-| **Compiler engineering** | A real IR (`TransferGraph`), discrete optimization passes, deterministic code generation, and a *semantics-preservation* invariant proven by property tests — not a string-templating script. |
+| **Compiler engineering** | A real IR (`TransferGraph`), discrete optimization passes, deterministic code generation, and a *semantics-preservation* invariant proven by property tests, not a string-templating script. |
 | **Applied operations research** | Implements the published CVRP/LP tip-saving formulation as compiler passes; the before/after table reports each metric's delta. |
 | **Domain fluency (lab automation)** | Correct Opentrons API usage, deck geometry, labware/tip/well capacities, contamination rules, and the Echo picklist format. |
 | **Testing rigor** | Hypothesis property tests (≥500 specs each), snapshot tests, a live `opentrons_simulate` gate, and a corpus/environment canary. |
@@ -89,21 +89,21 @@ transfer_volume_ul: 50
 Two front-ends lower to one IR; every pass rewrites the IR; codegen walks it. Passes never touch
 YAML or Python text.
 
-- **`TransferGraph` IR** — resources (labware, instruments), an ordered list of transfers
+- **`TransferGraph` IR:** resources (labware, instruments), an ordered list of transfers
   `(source, dest, volume, tip_class)`, and *tip classes* (which transfers may safely share a tip).
-- **Optimization passes** — multi-channel packing, source-grouped reordering, tip reuse, reagent
+- **Optimization passes:** multi-channel packing, source-grouped reordering, tip reuse, reagent
   batching. Each preserves the delivery map and contamination-safety.
-- **Static validator** — capacity, empty-source, tip-exhaustion, deck-collision, contamination.
-- **Codegen** — deterministic Opentrons API v2 (OT-2, `apiLevel` 2.15).
+- **Static validator:** capacity, empty-source, tip-exhaustion, deck-collision, contamination.
+- **Codegen:** deterministic Opentrons API v2 (OT-2, `apiLevel` 2.15).
 
 ### The correctness invariant (the heart of the project)
 
 Optimization must **never** change what liquid ends up where. Two properties, machine-checked over
 hundreds of randomly generated specs:
 
-1. **Delivery-equivalence** — the optimized IR delivers the same total volume for every
+1. **Delivery-equivalence:** the optimized IR delivers the same total volume for every
    `(source, dest)` pair as the naive IR.
-2. **Contamination-safety** — a tip is reused across two transfers only if they belong to the same
+2. **Contamination-safety:** a tip is reused across two transfers only if they belong to the same
    declared tip class.
 
 ## Prior art & how this differs
@@ -113,13 +113,13 @@ execution and packaging, not algorithmic novelty.**
 
 | Prior work | What it is | Why it's not this |
 | --- | --- | --- |
-| **Roboliq / PR-PR** ([repo](https://github.com/ellis/roboliq), [ACS Synth Biol 2018](https://pubs.acs.org/doi/abs/10.1021/acssynbio.8b00021)) | An AI-planning *compiler* from high-level protocols to optimized robot programs — the closest conceptual analog. | Scala/JS, **Tecan-only (no OT-2)**, research-grade. |
+| **Roboliq / PR-PR** ([repo](https://github.com/ellis/roboliq), [ACS Synth Biol 2018](https://pubs.acs.org/doi/abs/10.1021/acssynbio.8b00021)) | An AI-planning *compiler* from high-level protocols to optimized robot programs; the closest conceptual analog. | Scala/JS, **Tecan-only (no OT-2)**, research-grade. |
 | **Tip minimization as CVRP/LP** ([NAR Genomics 2022](https://pmc.ncbi.nlm.nih.gov/articles/PMC9074407/), [Digital Discovery 2025](https://arxiv.org/html/2506.02795)) | Published OR formulations that minimize pipette tips, with code. | The optimization is *solved research*. PipetteC **applies** it and cites it; it does not claim to invent it. |
 | **PyLabRobot** ([repo](https://github.com/PyLabRobot/pylabrobot), [paper](https://pmc.ncbi.nlm.nih.gov/articles/PMC10369895/)) | A hardware-agnostic Python **SDK** of atomic commands; supports OT-2. | An interface/runtime, **not a spec-compiler**; no optimizer, no Echo front-end. Complementary. |
 
-**What's distinctive here** is the assembled artifact: OT-2 target · high-level spec **and** Echo
-picklist front-ends · an IR with optimization passes · the official simulator as a CI gate · a
-static validator · modern typed Python — readable and runnable in minutes.
+**What's distinctive here** is the assembled artifact: an OT-2 target, high-level spec **and** Echo
+picklist front-ends, an IR with optimization passes, the official simulator as a CI gate, a
+static validator, and modern typed Python, all readable and runnable in minutes.
 
 ## Reproducibility
 
@@ -143,19 +143,19 @@ python benchmarks/simulate_corpus.py --n 500     # -> simulated 500 valid specs:
 
 A plain-language report explaining the problem, the tool, and how to judge the results lives at
 **[pipettec.pages.dev](https://pipettec.pages.dev)** (Cloudflare Pages). Its source is
-[`web/index.html`](web/) — a self-contained page (inlined deck SVG + charts, no external assets).
+[`web/index.html`](web/), a self-contained page (inlined deck SVG + charts, no external assets).
 The GitHub → Cloudflare link is
 [`.github/workflows/deploy-brief.yml`](.github/workflows/deploy-brief.yml): every push to `main`
 runs `cloudflare/wrangler-action` to redeploy `web/`, so the live page always tracks the repo.
 
 ## Glossary (for non-lab readers)
 
-- **OT-2** — Opentrons' benchtop liquid-handling robot; moves a pipette over a grid ("deck").
-- **Well / plate** — one addressable cavity (e.g. `A1`); a 96-well plate is 8 rows × 12 columns.
-- **Tip** — a disposable plastic pipette tip. Reusing tips *safely* is the core optimization.
-- **Serial dilution** — repeatedly diluting to make a concentration series (a dose–response curve).
-- **Echo picklist** — an industry-standard CSV of `(source well, dest well, volume)` rows.
-- **`opentrons_simulate`** — Opentrons' official CLI that dry-runs a protocol and errors on
+- **OT-2:** Opentrons' benchtop liquid-handling robot; moves a pipette over a grid ("deck").
+- **Well / plate:** one addressable cavity (e.g. `A1`); a 96-well plate is 8 rows × 12 columns.
+- **Tip:** a disposable plastic pipette tip. Reusing tips *safely* is the core optimization.
+- **Serial dilution:** repeatedly diluting to make a concentration series (a dose–response curve).
+- **Echo picklist:** an industry-standard CSV of `(source well, dest well, volume)` rows.
+- **`opentrons_simulate`:** Opentrons' official CLI that dry-runs a protocol and errors on
   anything invalid; our correctness gate.
 
 ## License

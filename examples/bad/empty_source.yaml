@@ -1,0 +1,8 @@
+# REJECTION CLASS: empty-source
+# Aspirates from a destination-plate well (dst:A1) that no prior transfer ever fills — an
+# on-deck data-dependency violation. The validator rejects this before the robot would try to
+# draw liquid from an empty well.
+template: cherry_pick
+name: bad_empty_source
+transfers:
+  - {source: "dst:A1", dest: "dst:B1", volume: 50}

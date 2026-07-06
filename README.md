@@ -127,6 +127,14 @@ bash scripts/verify.sh          # ruff + mypy + pytest(≥85% cov) + simulate-al
 
 A green run ends with the single line `VERIFY: ALL PASS`.
 
+The per-commit gate simulates the curated examples plus a fast fuzzer sample. To validate the
+"valid spec → simulates cleanly" property at full scale, run the heavyweight corpus check
+(minutes, spawns 500 real `opentrons_simulate` subprocesses):
+
+```bash
+python benchmarks/simulate_corpus.py --n 500     # -> simulated 500 valid specs: PASS=500 FAIL=0
+```
+
 ## Glossary (for non-lab readers)
 
 - **OT-2** — Opentrons' benchtop liquid-handling robot; moves a pipette over a grid ("deck").

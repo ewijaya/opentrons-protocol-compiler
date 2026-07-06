@@ -96,9 +96,9 @@ Milestones mirror `PROJECT.md`; this section is the actionable breakdown.
 - `tests/` dir with one trivial passing test so the pytest stage is real from the start.
 
 **DoD**
-- [ ] `bash scripts/verify.sh` runs and prints `VERIFY: ALL PASS` (with build stages SKIP-ping).
-- [ ] `pip install -e ".[dev]"` succeeds; `pipettec --help` runs.
-- [ ] CI workflow present and references `scripts/verify.sh`.
+- [x] `bash scripts/verify.sh` runs and prints `VERIFY: ALL PASS` (with build stages SKIP-ping).
+- [x] `pip install -e ".[dev]"` succeeds; `pipettec --help` runs.
+- [x] CI workflow present and references `scripts/verify.sh`.
 
 ### M1 — Vertical slice: serial dilution → simulator-green
 
@@ -114,10 +114,10 @@ Milestones mirror `PROJECT.md`; this section is the actionable breakdown.
   first Hypothesis property (valid spec → simulates), integration (CLI → simulate exit 0).
 
 **DoD**
-- [ ] `pipettec compile examples/dose_response.yaml -o /tmp/dr.py` then `opentrons_simulate /tmp/dr.py` exits 0.
-- [ ] Tip-reuse pass reduces tip count vs `--no-optimize` on the example (assert in a test).
-- [ ] Delivery-equivalence property holds over ≥100 generated specs (raise to ≥500 by M5).
-- [ ] `scripts/verify.sh` compiles+simulates the example and stays `VERIFY: ALL PASS`.
+- [x] `pipettec compile examples/dose_response.yaml -o /tmp/dr.py` then `opentrons_simulate /tmp/dr.py` exits 0.
+- [x] Tip-reuse pass reduces tip count vs `--no-optimize` on the example (assert in a test).
+- [x] Delivery-equivalence property holds over ≥100 generated specs (raise to ≥500 by M5).
+- [x] `scripts/verify.sh` compiles+simulates the example and stays `VERIFY: ALL PASS`.
 
 ### M2 — Echo picklist front-end + full optimization suite + metrics
 
@@ -132,10 +132,10 @@ Milestones mirror `PROJECT.md`; this section is the actionable breakdown.
   unit test (reduces its metric AND preserves delivery-equivalence).
 
 **DoD**
-- [ ] `pipettec compile examples/picklist.csv -o /tmp/pk.py` → `opentrons_simulate` exits 0.
-- [ ] `python benchmarks/bench.py` prints a naive-vs-optimized table; tip reduction ≥60% on the dose-response benchmark.
-- [ ] Each of the 4 passes has a passing metric+equivalence test.
-- [ ] `scripts/verify.sh` runs the benchmark stage and stays green.
+- [x] `pipettec compile examples/picklist.csv -o /tmp/pk.py` → `opentrons_simulate` exits 0.
+- [x] `python benchmarks/bench.py` prints a naive-vs-optimized table; tip reduction ≥60% on the dose-response benchmark.
+- [x] Each of the 4 passes has a passing metric+equivalence test.
+- [x] `scripts/verify.sh` runs the benchmark stage and stays green.
 
 ### M3 — Breadth: remaining templates
 
@@ -146,8 +146,8 @@ Milestones mirror `PROJECT.md`; this section is the actionable breakdown.
 - Property tests fuzz across **all** templates → every generated protocol simulates cleanly.
 
 **DoD**
-- [ ] All 5 templates compile; `opentrons_simulate` exits 0 for every `examples/*` (checked by verify.sh looping the folder).
-- [ ] Property suite covers all templates; ≥500 valid specs simulate.
+- [x] All 5 templates compile; `opentrons_simulate` exits 0 for every `examples/*` (checked by verify.sh looping the folder).
+- [x] Property suite covers all templates; ≥500 valid specs simulate.
 
 ### M4 — Static validator with friendly diagnostics
 
@@ -160,8 +160,8 @@ Milestones mirror `PROJECT.md`; this section is the actionable breakdown.
   never a protocol emitted); invalid-spec property (fuzzed invalids always rejected cleanly).
 
 **DoD**
-- [ ] Each of 5 rejection classes has a bad-spec example rejected with a clear message + non-zero exit.
-- [ ] Invalid-spec property holds over ≥500 generated invalid specs.
+- [x] Each of 5 rejection classes has a bad-spec example rejected with a clear message + non-zero exit.
+- [x] Invalid-spec property holds over ≥500 generated invalid specs.
 
 ### M5 — Visuals, cost report, README, polish
 
@@ -175,10 +175,10 @@ Milestones mirror `PROJECT.md`; this section is the actionable breakdown.
   CVRP/LP tip papers, PyLabRobot). Legible to a non-lab reader in under a minute.
 
 **DoD**
-- [ ] Deck SVG + plate heatmap generated for ≥ the flagship example and embedded in README.
-- [ ] README opens with pitch + metrics table + deck image + demonstrates-table + Prior Art section.
-- [ ] Corpus test green; coverage ≥85% on `src`.
-- [ ] Fresh-clone reproducibility: README's documented steps produce a green `scripts/verify.sh`.
+- [x] Deck SVG + plate heatmap generated for ≥ the flagship example and embedded in README.
+- [x] README opens with pitch + metrics table + deck image + demonstrates-table + Prior Art section.
+- [x] Corpus test green; coverage ≥85% on `src`.
+- [x] Fresh-clone reproducibility: README's documented steps produce a green `scripts/verify.sh`.
 
 ---
 
@@ -187,37 +187,37 @@ Milestones mirror `PROJECT.md`; this section is the actionable breakdown.
 The project is complete when **all** boxes hold and `scripts/verify.sh` prints `VERIFY: ALL PASS`.
 
 **Correctness**
-- [ ] Every `examples/*` (and `examples/bad/*` as rejections) is exercised by `scripts/verify.sh`.
-- [ ] Every generated example protocol passes real `opentrons_simulate` (exit 0), enforced in CI.
-- [ ] Delivery-equivalence property: ≥500 specs, zero counterexamples.
-- [ ] Valid-spec property: ≥500 specs all simulate cleanly.
-- [ ] Invalid-spec property: ≥500 invalid specs all rejected with structured diagnostics, no crash.
-- [ ] Per-template output snapshots pinned; unintended codegen change fails CI.
+- [x] Every `examples/*` (and `examples/bad/*` as rejections) is exercised by `scripts/verify.sh`.
+- [x] Every generated example protocol passes real `opentrons_simulate` (exit 0), enforced in CI.
+- [x] Delivery-equivalence property: ≥500 specs, zero counterexamples.
+- [x] Valid-spec property: ≥500 specs all simulate cleanly.
+- [x] Invalid-spec property: ≥500 invalid specs all rejected with structured diagnostics, no crash.
+- [x] Per-template output snapshots pinned; unintended codegen change fails CI.
 
 **Optimization (applied, benchmarked, cited)**
-- [ ] `benchmarks/bench.py` emits the naive-vs-optimized table from one IR (tips, steps, est. time).
-- [ ] Tip reduction ≥60% (target ~75%) on the dose-response benchmark.
-- [ ] Each pass: unit test proving it reduces its metric AND preserves the invariant.
-- [ ] Tip-saving passes cite the CVRP/LP formulation in code + docs; no novelty claimed.
+- [x] `benchmarks/bench.py` emits the naive-vs-optimized table from one IR (tips, steps, est. time).
+- [x] Tip reduction ≥60% (target ~75%) on the dose-response benchmark.
+- [x] Each pass: unit test proving it reduces its metric AND preserves the invariant.
+- [x] Tip-saving passes cite the CVRP/LP formulation in code + docs; no novelty claimed.
 
 **Coverage**
-- [ ] All 5 templates compile & simulate.
-- [ ] Echo picklist round-trip simulates.
-- [ ] All 5 validator rejection classes implemented + tested.
+- [x] All 5 templates compile & simulate.
+- [x] Echo picklist round-trip simulates.
+- [x] All 5 validator rejection classes implemented + tested.
 
 **Engineering & presentation**
-- [ ] `scripts/verify.sh` = `ruff` + `mypy` + `pytest --cov` + simulate-all-examples + benchmark, prints `VERIFY: ALL PASS`.
-- [ ] Coverage ≥85% on `src`.
-- [ ] CI green on GitHub Actions running the same verify script.
-- [ ] CLI (`compile`, `validate`, `report`, `render`) documented via `--help` + integration-tested.
-- [ ] Visuals generated + embedded in README.
-- [ ] README legible to a non-lab recruiter in <1 min; carries the Prior Art section.
-- [ ] Fresh clone → documented setup → `scripts/verify.sh` green.
+- [x] `scripts/verify.sh` = `ruff` + `mypy` + `pytest --cov` + simulate-all-examples + benchmark, prints `VERIFY: ALL PASS`.
+- [x] Coverage ≥85% on `src`.
+- [x] CI green on GitHub Actions running the same verify script.
+- [x] CLI (`compile`, `validate`, `report`, `render`) documented via `--help` + integration-tested.
+- [x] Visuals generated + embedded in README.
+- [x] README legible to a non-lab recruiter in <1 min; carries the Prior Art section.
+- [x] Fresh clone → documented setup → `scripts/verify.sh` green.
 
 **Delivery**
-- [ ] All work committed in logical increments (conventional messages) and pushed to `origin/main`.
-- [ ] `git status` clean; `.venv`/`.claude` never committed.
-- [ ] `opentrons` still pinned `>=8.8,<9`.
+- [x] All work committed in logical increments (conventional messages) and pushed to `origin/main`.
+- [x] `git status` clean; `.venv`/`.claude` never committed.
+- [x] `opentrons` still pinned `>=8.8,<9`.
 
 ---
 

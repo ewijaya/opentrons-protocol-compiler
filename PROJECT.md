@@ -247,33 +247,33 @@ Each milestone ends green (CI passing) and self-contained. A reader who stops at
 The project is **done** when every box below is checkable in CI or in the repo. Thresholds are concrete on purpose.
 
 ### Correctness (non-negotiable gates)
-- [ ] **Simulator gate:** every generated example protocol passes `opentrons_simulate` with exit 0, enforced in CI on every push/PR.
-- [ ] **Delivery-equivalence:** a property test asserts optimized IR delivers identical per-`(source,dest)` volumes as naive IR, across **≥ 500** generated specs, zero counterexamples.
-- [ ] **Valid-spec property:** **≥ 500** Hypothesis-generated valid specs each compile to a protocol that simulates cleanly.
-- [ ] **Invalid-spec property:** generated invalid specs are **always** rejected with a structured diagnostic and non-zero exit — never a crash, never a bad protocol emitted.
-- [ ] **Snapshot stability:** each template has a pinned output snapshot; unintended codegen changes fail CI.
+- [x] **Simulator gate:** every generated example protocol passes `opentrons_simulate` with exit 0, enforced in CI on every push/PR.
+- [x] **Delivery-equivalence:** a property test asserts optimized IR delivers identical per-`(source,dest)` volumes as naive IR, across **≥ 500** generated specs, zero counterexamples.
+- [x] **Valid-spec property:** **≥ 500** Hypothesis-generated valid specs each compile to a protocol that simulates cleanly.
+- [x] **Invalid-spec property:** generated invalid specs are **always** rejected with a structured diagnostic and non-zero exit — never a crash, never a bad protocol emitted.
+- [x] **Snapshot stability:** each template has a pinned output snapshot; unintended codegen changes fail CI.
 
 ### Optimization (applied, benchmarked, cited)
-- [ ] Tool emits a **before/after table** (naive vs optimized) computed from one IR, covering **tips**, **aspirations/steps**, and **estimated time**.
-- [ ] On the reference dose–response benchmark, tip reduction is **≥ 60%** (target ~75%), reproduced by a committed benchmark script.
-- [ ] Each pass has a unit test proving it (a) reduces its target metric and (b) preserves the correctness invariant.
-- [ ] The tip-saving passes **cite the CVRP/LP source formulation** in code and docs; no novelty is claimed for the algorithm.
+- [x] Tool emits a **before/after table** (naive vs optimized) computed from one IR, covering **tips**, **aspirations/steps**, and **estimated time**.
+- [x] On the reference dose–response benchmark, tip reduction is **≥ 60%** (target ~75%), reproduced by a committed benchmark script.
+- [x] Each pass has a unit test proving it (a) reduces its target metric and (b) preserves the correctness invariant.
+- [x] The tip-saving passes **cite the CVRP/LP source formulation** in code and docs; no novelty is claimed for the algorithm.
 
 ### Front-ends & templates
-- [ ] All **5 templates** compile and simulate.
-- [ ] **Echo picklist CSV** round-trip: a real (public/textbook) picklist compiles to an optimized protocol that simulates.
+- [x] All **5 templates** compile and simulate.
+- [x] **Echo picklist CSV** round-trip: a real (public/textbook) picklist compiles to an optimized protocol that simulates.
 
 ### Validator
-- [ ] **All 5 rejection classes** (capacity, empty-source, tip-exhaustion, deck-collision, contamination) implemented, each with a dedicated failing-input test producing a clear message.
+- [x] **All 5 rejection classes** (capacity, empty-source, tip-exhaustion, deck-collision, contamination) implemented, each with a dedicated failing-input test producing a clear message.
 
 ### Engineering & presentation
-- [ ] **CI green** on GitHub Actions (lint + type-check + full test suite + simulator gate).
-- [ ] Test **coverage ≥ 85%** on the compiler core (parser, IR, passes, validator, codegen).
-- [ ] **CLI**: `compile`, `validate`, `report`, `render` all documented with `--help` and covered by an integration test.
-- [ ] **Visuals**: deck SVG + plate heatmap generated for at least the flagship example and embedded in the README.
-- [ ] **README** opens with the pitch, the metrics table, a rendered deck diagram, and the "what this demonstrates" table — legible to a non-lab recruiter in under a minute.
-- [ ] **README carries a "Prior Art & how this differs" section** that cites Roboliq, the CVRP/LP tip papers, and PyLabRobot — claiming execution, not algorithmic novelty.
-- [ ] **Reproducibility**: `pip install -e .` + `pytest` + `opentrons_simulate` runnable from a clean clone following the README alone.
+- [x] **CI green** on GitHub Actions (lint + type-check + full test suite + simulator gate).
+- [x] Test **coverage ≥ 85%** on the compiler core (parser, IR, passes, validator, codegen).
+- [x] **CLI**: `compile`, `validate`, `report`, `render` all documented with `--help` and covered by an integration test.
+- [x] **Visuals**: deck SVG + plate heatmap generated for at least the flagship example and embedded in the README.
+- [x] **README** opens with the pitch, the metrics table, a rendered deck diagram, and the "what this demonstrates" table — legible to a non-lab recruiter in under a minute.
+- [x] **README carries a "Prior Art & how this differs" section** that cites Roboliq, the CVRP/LP tip papers, and PyLabRobot — claiming execution, not algorithmic novelty.
+- [x] **Reproducibility**: `pip install -e .` + `pytest` + `opentrons_simulate` runnable from a clean clone following the README alone.
 
 ---
 

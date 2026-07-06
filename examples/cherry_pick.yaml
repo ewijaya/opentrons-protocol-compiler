@@ -1,0 +1,9 @@
+# Arbitrary hit-picking: move selected source wells to condensed destination wells.
+template: cherry_pick
+name: cherry_pick
+transfers:
+  - {source: A1, dest: A1, volume: 30}
+  - {source: C4, dest: B1, volume: 30}
+  - {source: H12, dest: C1, volume: 50}
+  - {source: E7, dest: D1, volume: 25}
+  - {source: A1, dest: E1, volume: 20}

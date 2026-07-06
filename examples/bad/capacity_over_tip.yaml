@@ -1,0 +1,7 @@
+# REJECTION CLASS: capacity
+# A 500 uL transfer exceeds the p300 pipette's 300 uL max — the validator must reject this
+# before any robot would attempt the impossible aspiration.
+template: cherry_pick
+name: bad_capacity
+transfers:
+  - {source: A1, dest: A1, volume: 500}

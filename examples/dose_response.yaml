@@ -1,0 +1,14 @@
+# Flagship example: an 8-replicate, 12-point dose-response serial dilution — the standard
+# full-plate layout run with an 8-channel pipette. Points run across columns 1..12; the 8
+# replicates fill rows A..H, so every dilution step is one 8-channel column move. The
+# multichannel-packing + tip-reuse passes collapse the naive per-well transfers dramatically.
+# See README for the auto-generated naive-vs-optimized metrics.
+template: serial_dilution
+name: dose_response
+compounds: [DrugA]
+points: 12
+replicates: 8
+top_conc_uM: 100
+factor: 3          # 3-fold serial dilution
+diluent: DMSO
+transfer_volume_ul: 50

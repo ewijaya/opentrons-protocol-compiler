@@ -1,0 +1,7 @@
+# Normalize a set of wells to a common 200 uL by topping up with buffer (a clean distribute).
+template: plate_normalization
+name: plate_normalization
+wells: [A1, B1, C1, D1, A2, B2, C2, D2]
+current_volume_ul: [120, 80, 150, 60, 100, 140, 90, 110]
+target_volume_ul: 200
+diluent: buffer

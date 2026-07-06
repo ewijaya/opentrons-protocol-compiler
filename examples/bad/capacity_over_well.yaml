@@ -1,0 +1,7 @@
+# REJECTION CLASS: capacity (cumulative well overflow)
+# Repeated dispenses into one 360 uL well total 400 uL — exceeds the well capacity.
+template: cherry_pick
+name: bad_well_overflow
+transfers:
+  - {source: A1, dest: A1, volume: 200}
+  - {source: B1, dest: A1, volume: 200}

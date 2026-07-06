@@ -1,0 +1,7 @@
+# PCR setup: distribute 18 uL mastermix into 24 reactions, then add 2 uL template to each.
+# Small volumes -> p20 single-channel pipette (1-20 uL range).
+template: pcr_setup
+name: pcr_setup
+reactions: 24
+mastermix_volume_ul: 18
+template_volume_ul: 2

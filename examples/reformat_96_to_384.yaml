@@ -1,0 +1,6 @@
+# Consolidate two 96-well plates into two interleaved quadrants of a 384-well plate.
+# Uses an 8-channel pipette; the multichannel-packing pass collapses per-row transfers.
+template: reformat_96_to_384
+name: reformat_96_to_384
+source_plates: [plateA, plateB]
+volume_ul: 20

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="13" fill="#051c2c"/>
+  <!-- pipette tip: a tapered nozzle with a liquid droplet, the tool's core motif -->
+  <path d="M32 12 L40 12 L34.5 40 A3 3 0 0 1 29.5 40 Z" fill="#00a9f4"/>
+  <circle cx="32" cy="49" r="6.5" fill="#7fd3ff"/>
+  <path d="M32 43.5 C34 47 35.5 48 35.5 50.5 A3.5 3.5 0 0 1 28.5 50.5 C28.5 48 30 47 32 43.5 Z" fill="#fff"/>
+</svg>

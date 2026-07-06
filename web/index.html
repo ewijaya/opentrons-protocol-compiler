@@ -3,7 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PipetteC — A plain-language report: turning experiment recipes into cheaper, proven lab-robot instructions</title>
+<title>PipetteC · A plain-language report: turning experiment recipes into cheaper, proven lab-robot instructions</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='13' fill='%23051c2c'/%3E%3Cpath d='M32 12 L40 12 L34.5 40 A3 3 0 0 1 29.5 40 Z' fill='%2300a9f4'/%3E%3Ccircle cx='32' cy='49' r='6.5' fill='%237fd3ff'/%3E%3Cpath d='M32 43.5 C34 47 35.5 48 35.5 50.5 A3.5 3.5 0 0 1 28.5 50.5 C28.5 48 30 47 32 43.5 Z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="favicon.svg">
 <meta name="description" content="A stakeholder report, written for non-specialists, on PipetteC: a tool that turns a simple experiment recipe into precise, cheaper, and independently-verified instructions for a laboratory robot.">
 <style>
   :root{
@@ -142,9 +145,9 @@
 <header class="hero"><div class="wrap">
   <div class="eyebrow">A plain-language report · no prior knowledge assumed</div>
   <h1>Turning a simple experiment recipe into cheaper, self-checked instructions for a lab robot.</h1>
-  <p class="lede">This report explains — from the ground up, for a reader who has never touched a
-    laboratory or written a line of code — what problem this tool solves, how it works, and how you
-    can judge for yourself whether it is any good. Every result quoted here is produced by the tool
+  <p class="lede">Written from the ground up for a reader who has never touched a laboratory or
+    written a line of code. It covers what problem this tool solves, how it works, and how you can
+    judge for yourself whether it is any good. Every result quoted here is produced by the tool
     itself and checked by an independent referee.</p>
   <div class="metaRow">
     <span><b>Audience:</b> non-technical stakeholders</span>
@@ -171,36 +174,36 @@
 <div class="exec" id="s1"><div class="wrap">
   <div class="eyebrow">Executive summary</div>
   <h2>The 30-second version</h2>
-  <p>Modern labs use <b>robots</b> to move tiny amounts of liquid between hundreds of little cups —
-    the everyday work behind drug discovery, medical testing, and research. Today a scientist writes
-    the robot's instructions <b>by hand</b>: it is slow, easy to get wrong, and wasteful of expensive
-    single-use plastic tips.</p>
+  <p>Modern labs use <b>robots</b> to move tiny amounts of liquid between hundreds of little cups.
+    This is the everyday work behind drug discovery, medical testing, and research. Today a scientist
+    writes the robot's instructions <b>by hand</b>: it is slow, easy to get wrong, and wasteful of
+    expensive single-use plastic tips.</p>
   <p><b>PipetteC lets the scientist write a short "recipe" instead.</b> The tool turns that recipe
-    into precise robot instructions, automatically makes them <b>cheaper and faster</b>, and — crucially
-    — has an <b>independent referee check every result before anyone trusts it.</b></p>
+    into precise robot instructions, automatically makes them <b>cheaper and faster</b>, and has an
+    <b>independent referee check every result before anyone trusts it.</b></p>
   <div class="tldr">
-    <div class="b"><div class="n">93<small>%</small></div><div class="t">fewer disposable plastic tips on the flagship experiment (184 → 13)</div></div>
-    <div class="b"><div class="n">500<small>/500</small></div><div class="t">generated instruction-sets passed the independent referee — zero failures</div></div>
-    <div class="b"><div class="n">100<small>%</small></div><div class="t">guaranteed to deliver the same liquid as the hand-written version — proven, not promised</div></div>
+    <div class="b"><div class="n">93<small>%</small></div><div class="t">fewer disposable plastic tips on the flagship experiment (184 down to 13)</div></div>
+    <div class="b"><div class="n">500<small>/500</small></div><div class="t">generated instruction-sets passed the independent referee, with zero failures</div></div>
+    <div class="b"><div class="n">100<small>%</small></div><div class="t">guaranteed to deliver the same liquid as the hand-written version. Proven, not promised.</div></div>
   </div>
 </div></div>
 
 <!-- 2. THE WORLD -->
 <section class="body" id="s2"><div class="wrap">
-  <h2><span class="num">Section 02</span>The world this lives in — start here</h2>
-  <p class="lead">Before the problem makes sense, here is the setting. No jargon; skip nothing.</p>
+  <h2><span class="num">Section 02</span>The world this lives in</h2>
+  <p class="lead">The setting first, so the problem makes sense. No jargon; skip nothing.</p>
 
   <h3>Labs move liquid for a living</h3>
   <p>A huge amount of science and medicine comes down to <b>moving small drops of liquid from one
     little cup to another</b> and seeing what happens. Testing whether a drug works, running a COVID
-    test, checking a blood sample — under the hood, it is liquids being combined in precise amounts.</p>
+    test, checking a blood sample: under the hood, it is liquids being combined in precise amounts.</p>
 
-  <div class="def"><b>A "plate"</b> is a flat tray with a grid of tiny cups — commonly 96 of them
+  <div class="def"><b>A "plate"</b> is a flat tray with a grid of tiny cups, commonly 96 of them
     (8 rows × 12 columns), each holding a drop smaller than a raindrop. Each cup is called a
     <b>"well."</b></div>
 
   <h3>A robot does the pipetting</h3>
-  <p>Doing this by hand — thousands of tiny, identical drops — is tedious and imprecise. So labs use a
+  <p>Doing this by hand, thousands of tiny identical drops, is tedious and imprecise. So labs use a
     <b>liquid-handling robot</b>: a machine with a motorized eyedropper (a "pipette") that moves over
     the tray and squirts exact amounts into each cup. A popular, affordable one is the
     <b>Opentrons OT-2</b>. That is the machine this tool writes instructions for.</p>
@@ -212,7 +215,7 @@
 
   <div class="def"><b>A "tip"</b> is the small disposable plastic nozzle on the pipette. To avoid
     contaminating one liquid with another, the robot often throws the tip away and grabs a fresh one.
-    Tips cost money and create plastic waste — so <b>using fewer tips is a real, measurable win.</b>
+    Tips cost money and create plastic waste, so <b>using fewer of them is a real, measurable win.</b>
     Reusing a tip is only safe when it won't mix things that shouldn't be mixed.</div>
 </div></section>
 
@@ -224,26 +227,26 @@
 
   <div class="cardgrid">
     <div class="card"><h4>① It is easy to get wrong</h4><p>The program is hundreds of low-level "move
-      this much liquid from here to there" commands. One typo can ruin an experiment — wasting days of
-      work and costly materials — or, worse, produce results that look fine but are subtly incorrect.</p></div>
+      this much liquid from here to there" commands. One typo can ruin an experiment, wasting days of
+      work and costly materials, or, worse, produce results that look fine but are subtly incorrect.</p></div>
     <div class="card"><h4>② It wastes expensive tips</h4><p>A careless program grabs a brand-new
       plastic tip for every single drop, even when the same tip could safely be reused. On a busy
-      plate that is hundreds of needless tips — real money and real plastic, every run.</p></div>
+      plate that is hundreds of needless tips: real money and real plastic, every run.</p></div>
     <div class="card"><h4>③ It is slow to write and hard to trust</h4><p>Optimizing the program by
-      hand to save tips is fiddly and risky — every hand-optimization is a new chance to accidentally
+      hand to save tips is fiddly and risky. Every hand-optimization is a new chance to accidentally
       change what the experiment actually does.</p></div>
   </div>
 
   <div class="analogy"><span class="lab">Everyday analogy</span>
-    It is like writing <b>turn-by-turn driving directions by hand</b> for a delivery driver — every
+    It is like writing <b>turn-by-turn driving directions by hand</b> for a delivery driver, every
     single street. Doable, but slow, and one wrong turn wastes the whole trip. You would much rather
-    describe the <b>destinations</b> and let a GPS compute the efficient route — and confirm it's valid
+    describe the <b>destinations</b>, let a GPS compute the efficient route, and confirm it is valid
     before the driver leaves.</div>
 </section></div>
 
 <!-- 4. THE IDEA -->
 <section class="body" id="s4"><div class="wrap">
-  <h2><span class="num">Section 04</span>The idea — why this tool</h2>
+  <h2><span class="num">Section 04</span>The idea, and why this tool</h2>
   <p class="lead">PipetteC is a <b>"compiler"</b> for lab experiments. That word deserves one plain
     sentence.</p>
 
@@ -251,15 +254,15 @@
     high-level form, and it automatically produces the exact, detailed, machine-ready version. Every
     app on your phone was built by a compiler translating human-written code into machine code.</div>
 
-  <p>PipetteC does the same for lab work. The scientist writes a short, readable <b>recipe</b> — "make
-    a standard dilution series of Drug&nbsp;A, 8 copies, 12 steps." The tool then does three jobs
+  <p>PipetteC does the same for lab work. The scientist writes a short, readable <b>recipe</b>, such as
+    "make a standard dilution series of Drug&nbsp;A, 8 copies, 12 steps." The tool then does three jobs
     automatically:</p>
 
   <ol class="steps">
-    <li><b>Translate.</b> It turns the recipe into complete, correct robot instructions — no
-      hand-writing hundreds of commands.</li>
+    <li><b>Translate.</b> It turns the recipe into complete, correct robot instructions, with no
+      hand-writing of hundreds of commands.</li>
     <li><b>Optimize.</b> It rearranges the work to <b>reuse tips wherever it is safe</b>, cutting cost,
-      plastic, and time — while guaranteeing the experiment is unchanged.</li>
+      plastic, and time while guaranteeing the experiment is unchanged.</li>
     <li><b>Verify.</b> It hands every result to an <b>independent referee</b> (see Section 06) that
       catches mistakes before the robot ever moves.</li>
   </ol>
@@ -276,7 +279,7 @@
 
   <div class="twocol">
     <div>
-      <h3>What goes in — the recipe</h3>
+      <h3>What goes in: the recipe</h3>
       <p>A short, human-readable file. This is the entire input for a real 96-cup dilution experiment:</p>
       <div class="exhibit" style="margin-top:10px">
         <div class="cap"><div class="ex">Input</div><div class="ti">The scientist's recipe (plain text)</div></div>
@@ -290,17 +293,17 @@ dilution_factor: 3</code></pre>
         </div>
       </div>
       <p style="font-size:15px;color:var(--slate)">The tool also accepts a real industry file called
-        an <b>"Echo picklist"</b> — a spreadsheet of "move this much from cup A to cup B" rows that
+        an <b>"Echo picklist"</b>: a spreadsheet of "move this much from cup A to cup B" rows that
         many labs already produce. No new format to learn.</p>
     </div>
     <div>
       <h3>What comes out</h3>
       <ul>
-        <li><b>Ready-to-run robot instructions</b> — the exact program the OT-2 executes.</li>
-        <li><b>A cost report</b> — how many tips, how much liquid, and an estimated run time.</li>
-        <li><b>A picture of the robot's workbench</b> (below) — so a human can sanity-check the setup
+        <li><b>Ready-to-run robot instructions:</b> the exact program the OT-2 executes.</li>
+        <li><b>A cost report:</b> how many tips, how much liquid, and an estimated run time.</li>
+        <li><b>A picture of the robot's workbench</b> (below), so a human can sanity-check the setup
           at a glance.</li>
-        <li><b>A pass/fail stamp from the referee</b> — proof the instructions are valid.</li>
+        <li><b>A pass/fail stamp from the referee,</b> proof the instructions are valid.</li>
       </ul>
     </div>
   </div>
@@ -356,29 +359,29 @@ dilution_factor: 3</code></pre>
 
 <!-- 6. HOW WE PROVE IT -->
 <section class="body" id="s6"><div class="wrap">
-  <h2><span class="num">Section 06</span>How we prove it works — and how <em>you</em> can tell it's good</h2>
-  <p class="lead">A tool that saves money is worthless if it quietly breaks the experiment. This is the
-    most important section: the three independent ways we prove the output is trustworthy.</p>
+  <h2><span class="num">Section 06</span>How we prove it works, and how <em>you</em> can tell it's good</h2>
+  <p class="lead">A tool that saves money is worthless if it quietly breaks the experiment. So this is
+    the section that matters most: the three independent ways we prove the output is trustworthy.</p>
 
-  <h3>Proof 1 — An official referee checks every result</h3>
+  <h3>Proof 1: an official referee checks every result</h3>
   <p>The maker of the robot (Opentrons) publishes an <b>official simulator</b>: a program that
-    "dry-runs" any set of instructions and flags anything impossible or invalid — without needing the
+    "dry-runs" any set of instructions and flags anything impossible or invalid, without needing the
     physical robot. We run <b>every single set of instructions the tool produces</b> through this
     referee. It is <b>never faked or skipped.</b></p>
   <div class="analogy"><span class="lab">Everyday analogy</span>
     Like a <b>flight simulator</b> that must complete the whole flight without crashing before a new
-    route is approved — except we require a clean run <b>every time, automatically.</b></div>
+    route is approved, except we require a clean run <b>every time, automatically.</b></div>
 
-  <h3>Proof 2 — A mathematical guarantee that the science is unchanged</h3>
+  <h3>Proof 2: a mathematical guarantee that the science is unchanged</h3>
   <p>When the tool reuses tips to save money, it must <b>never change what liquid ends up where.</b>
     We check this with a strict rule: the optimized instructions must deliver the <b>exact same
     amount of every liquid to every cup</b> as the plain, un-optimized version. We tested this on
-    <b>550 randomly generated experiments</b> — and found <b>zero</b> cases where it differed.</p>
+    <b>550 randomly generated experiments</b> and found <b>zero</b> cases where it differed.</p>
 
-  <h3>Proof 3 — It refuses to run unsafe or impossible recipes</h3>
+  <h3>Proof 3: it refuses to run unsafe or impossible recipes</h3>
   <p>Before anything runs, a built-in <b>safety checker</b> rejects recipes that ask for the
     impossible (too much liquid for a cup, drawing from an empty cup, mixing things that must not
-    touch) — with a clear, readable explanation instead of a silent failure.</p>
+    touch), giving a clear, readable explanation instead of a silent failure.</p>
 
   <div class="exhibit">
     <div class="cap"><div class="ex">Exhibit B</div><div class="ti">The evidence, at a glance</div></div>
@@ -399,7 +402,7 @@ dilution_factor: 3</code></pre>
 <!-- 7. RESULTS -->
 <section class="body" id="s7"><div class="wrap">
   <h2><span class="num">Section 07</span>The results, in plain numbers</h2>
-  <p class="lead">Here is the payoff, measured — not estimated. "Tips" are the throwaway plastic
+  <p class="lead">The payoff, measured rather than estimated. "Tips" are the throwaway plastic
     nozzles; fewer is cheaper and greener. The comparison is <b>fair by construction</b>: both columns
     come from the <b>same tool</b>, once with the money-saving smarts off, once with them on.</p>
 
@@ -420,12 +423,12 @@ dilution_factor: 3</code></pre>
         </tbody>
       </table>
       <div class="callout"><b>We show the case where we save nothing, on purpose.</b> The last
-        experiment already can't be improved — the safety rules require a fresh tip for each source, so
+        experiment already can't be improved: the safety rules require a fresh tip for each source, so
         there is nothing to save. An honest report shows the "0%" next to the wins rather than hiding it.
         <b>That willingness to show the null result is itself a signal you can trust the other numbers.</b></div>
     </div>
     <div class="src">Tip and step counts are <b>exact</b> (counted directly). Time is a transparent
-      model estimate, clearly labelled — not a measurement from physical hardware. Source:
+      model estimate, clearly labelled, and not a measurement from physical hardware. Source:
       <code>benchmarks/bench.py</code>, run on opentrons 8.8.2.</div>
   </div>
 
@@ -448,17 +451,17 @@ dilution_factor: 3</code></pre>
 
 <!-- 8. HONESTY -->
 <section class="body" id="s8"><div class="wrap">
-  <h2><span class="num">Section 08</span>Honesty — the limits, and what's genuinely new</h2>
+  <h2><span class="num">Section 08</span>Honesty: the limits, and what's genuinely new</h2>
   <p class="lead">A credible report states its boundaries plainly.</p>
 
   <div class="cardgrid">
-    <div class="card"><h4>What is new here</h4><p>Not a new algorithm. The clever tip-saving math is
-      <b>published prior research</b> that we <b>apply and credit</b> — we do not claim to have invented
-      it. What is new is the <b>packaged, end-to-end tool</b>: an easy recipe in, a verified robot
+    <div class="card"><h4>What is new here</h4><p>The clever tip-saving math is <b>published prior
+      research</b> that we <b>apply and credit</b>; we do not claim to have invented it. The
+      contribution is the <b>packaged, end-to-end tool</b>: an easy recipe in, a verified robot
       program out, with the official referee wired in as an automatic gate.</p></div>
     <div class="card"><h4>What it does not do (yet)</h4><p>It targets one specific robot (the
       Opentrons OT-2) and validates in the official <b>simulator</b>, not on physical hardware. The
-      time figures are transparent <b>estimates</b>, clearly labelled — never presented as hardware
+      time figures are transparent <b>estimates</b>, clearly labelled and never presented as hardware
       measurements.</p></div>
   </div>
 
@@ -466,7 +469,7 @@ dilution_factor: 3</code></pre>
   <ul class="checklist">
     <li>The live numbers on this page are regenerated by the tool's own scripts on every code change.</li>
     <li>Anyone can download the project and run one command to reproduce the entire result set.</li>
-    <li>Every claimed protocol is checked by Opentrons' <b>own</b> simulator — an independent authority, not us.</li>
+    <li>Every claimed protocol is checked by Opentrons' <b>own</b> simulator, an independent authority, not us.</li>
     <li>The "before vs. after" comparison uses the <b>same tool</b> for both sides, so it cannot be gamed.</li>
     <li>The one case with <b>no</b> improvement is shown, not hidden.</li>
   </ul>
@@ -476,11 +479,11 @@ dilution_factor: 3</code></pre>
 <section class="body" id="s9" style="border-bottom:0"><div class="wrap">
   <h2><span class="num">Section 09</span>The bottom line</h2>
   <p class="lead">A scientist writes a short recipe. PipetteC turns it into <b>correct, cheaper,
-    self-checked robot instructions</b> — cutting disposable-plastic use by up to <b>93%</b> on the
+    self-checked robot instructions</b>, cutting disposable-plastic use by up to <b>93%</b> on the
     flagship experiment, with a <b>proven guarantee that the science is unchanged</b> and an
     <b>independent referee signing off on every result.</b></p>
-  <p>The value is not a novel formula; it is <b>trustworthy execution</b>: less waste, fewer errors,
-    and results you can verify yourself rather than take on faith.</p>
+  <p>The value lies in <b>trustworthy execution</b> rather than a novel formula: less waste, fewer
+    errors, and results you can verify yourself rather than take on faith.</p>
   <div class="pipeline" style="margin-top:24px">
     <span class="node alt">Recipe</span><span class="arrow">→</span>
     <span class="node">Translate</span><span class="arrow">→</span>
@@ -492,7 +495,7 @@ dilution_factor: 3</code></pre>
 </div></section>
 
 <footer><div class="wrap">
-  <strong style="color:#eaf2f8">PipetteC</strong> — turning experiment recipes into cheaper, verified lab-robot instructions.
+  <strong style="color:#eaf2f8">PipetteC</strong> · turning experiment recipes into cheaper, verified lab-robot instructions.
   &nbsp;·&nbsp; Code &amp; full reproducibility:
   <a href="https://github.com/ewijaya/opentrons-protocol-compiler">github.com/ewijaya/opentrons-protocol-compiler</a>
   <div class="disc">Every figure in this report is generated by the tool and checked by the official

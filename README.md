@@ -9,6 +9,9 @@
 ![tests](https://img.shields.io/badge/tests-pytest%20%2B%20hypothesis-blueviolet)
 ![license](https://img.shields.io/badge/license-MIT-lightgrey)
 
+**📄 Promotional brief (hero results, McKinsey-style):** **[pipettec.pages.dev](https://pipettec.pages.dev)** —
+auto-redeployed from `web/` on every push to `main`.
+
 PipetteC compiles a high-level YAML experiment spec — or a real Echo picklist CSV — into a
 runnable Opentrons OT-2 Python protocol. It is built like a real compiler:
 

@@ -8,13 +8,10 @@ name: Deploy brief to Cloudflare Pages
 #   CLOUDFLARE_ACCOUNT_ID — the Cloudflare account id
 
 on:
+  # Redeploy on EVERY push to main, so the live page always reflects the latest repo state
+  # (the brief cites tool-measured numbers that can change when the compiler changes).
   push:
     branches: [main]
-    # Deploy when the page, its generated assets, or this workflow change.
-    paths:
-      - "web/**"
-      - "docs/img/**"
-      - ".github/workflows/deploy-brief.yml"
   workflow_dispatch: {}
 
 permissions:

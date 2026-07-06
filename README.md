@@ -8,9 +8,13 @@
 ![simulator](https://img.shields.io/badge/opentrons-8.8.2%20(OT--2)-blue)
 ![tests](https://img.shields.io/badge/tests-pytest%20%2B%20hypothesis-blueviolet)
 ![license](https://img.shields.io/badge/license-MIT-lightgrey)
+[![live brief](https://img.shields.io/badge/live%20brief-pipettec.pages.dev-00a9f4)](https://pipettec.pages.dev)
 
-**📄 Promotional brief (hero results, McKinsey-style):** **[pipettec.pages.dev](https://pipettec.pages.dev)** —
-auto-redeployed from `web/` on every push to `main`.
+**📄 Live results brief → [pipettec.pages.dev](https://pipettec.pages.dev)** — a hero-results,
+McKinsey-style one-pager. Every figure on it is measured from the tool and validated by
+`opentrons_simulate`. It is hosted on Cloudflare Pages and **auto-redeploys on every push to
+`main`** (source in [`web/`](web/), pipeline in
+[`.github/workflows/deploy-brief.yml`](.github/workflows/deploy-brief.yml)).
 
 PipetteC compiles a high-level YAML experiment spec — or a real Echo picklist CSV — into a
 runnable Opentrons OT-2 Python protocol. It is built like a real compiler:
@@ -137,6 +141,14 @@ The per-commit gate simulates the curated examples plus a fast fuzzer sample. To
 ```bash
 python benchmarks/simulate_corpus.py --n 500     # -> simulated 500 valid specs: PASS=500 FAIL=0
 ```
+
+## Live brief & deployment
+
+The promotional one-pager lives at **[pipettec.pages.dev](https://pipettec.pages.dev)** (Cloudflare
+Pages). Its source is [`web/index.html`](web/) — a self-contained page (inlined deck SVG + chart, no
+external assets). The GitHub → Cloudflare link is
+[`.github/workflows/deploy-brief.yml`](.github/workflows/deploy-brief.yml): every push to `main`
+runs `cloudflare/wrangler-action` to redeploy `web/`, so the live page always tracks the repo.
 
 ## Glossary (for non-lab readers)
 

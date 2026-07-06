@@ -1,0 +1,35 @@
+name: Deploy brief to Cloudflare Pages
+
+# Auto-deploys the promotional brief (web/) to Cloudflare Pages on every push to main.
+# This is the GitHub <-> Cloudflare link: any update to this repo redeploys the live page.
+#
+# Requires two repository secrets (set via `gh secret set`):
+#   CLOUDFLARE_API_TOKEN  — scoped to Cloudflare Pages: Edit on this account
+#   CLOUDFLARE_ACCOUNT_ID — the Cloudflare account id
+
+on:
+  push:
+    branches: [main]
+    # Deploy when the page, its generated assets, or this workflow change.
+    paths:
+      - "web/**"
+      - "docs/img/**"
+      - ".github/workflows/deploy-brief.yml"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Publish web/ to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy web --project-name=pipettec --branch=main

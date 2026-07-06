@@ -60,12 +60,21 @@ def lower_serial_dilution(spec: SerialDilution) -> TransferGraph:
     * Serial dilution then moves ``vol`` from column ``k`` to column ``k+1`` for the whole band.
 
     Because each dilution step is a straight column-to-column move across all rows of the band,
-    an 8-channel pipette does a full 8-row band in a single move — the ``multichannel_pack`` pass
-    collapses the per-row transfers 8:1. This is the real tip win for dose-response plates.
+    an 8-channel pipette does a *full 8-row* band in a single move — the ``multichannel_pack``
+    pass collapses the per-row transfers 8:1. This is the real tip win for dose-response plates.
+
+    Instrument choice: the 8-channel pipette is used only when a single compound fills a complete
+    8-row column (``len(compounds) == 1 and replicates == 8``), because a multi pipette always
+    consumes a whole column of tips per pickup — a straight column move must span all rows A..H to
+    pack, and it only does so for a single full-column band. Every other layout uses the
+    single-channel p300, which the tip-reuse pass still optimises.
     """
+    use_multi = len(spec.compounds) == 1 and spec.replicates == 8
+    pipette_id = "p300m" if use_multi else "p300"
+
     g = _base_graph(spec.name, f"Serial dilution: {spec.compounds} x{spec.points}pt f={spec.factor}")
     g.labware = [_PLATE, _RESERVOIR, _TIPRACK, _TIPRACK2]
-    g.instruments = [_P300_MULTI, _P300]
+    g.instruments = [_P300_MULTI, _P300] if use_multi else [_P300]
     g.tip_classes = [TipClass("diluent", "clean diluent distribution")]
     for c in spec.compounds:
         g.tip_classes.append(TipClass(f"stock:{c}", f"clean {c} stock"))
@@ -85,7 +94,7 @@ def lower_serial_dilution(spec: SerialDilution) -> TransferGraph:
                         source="reagents:A1",
                         dest=f"plate:{r}{col}",
                         volume=vol,
-                        instrument="p300m",
+                        instrument=pipette_id,
                         tip_class="diluent",
                     )
                 )
@@ -96,7 +105,7 @@ def lower_serial_dilution(spec: SerialDilution) -> TransferGraph:
                     source=stock_well,
                     dest=f"plate:{r}1",
                     volume=vol,
-                    instrument="p300m",
+                    instrument=pipette_id,
                     tip_class=f"stock:{compound}",
                 )
             )
@@ -108,7 +117,7 @@ def lower_serial_dilution(spec: SerialDilution) -> TransferGraph:
                         source=f"plate:{r}{col}",
                         dest=f"plate:{r}{col + 1}",
                         volume=vol,
-                        instrument="p300m",
+                        instrument=pipette_id,
                         tip_class=f"dilute:{compound}",
                     )
                 )
